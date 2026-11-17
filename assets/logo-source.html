@@ -1,0 +1,53 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=block" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: transparent; }
+  svg { display: block; width: 1600px; height: auto; }
+  .word { font-family: "Archivo Black", sans-serif; }
+</style>
+</head>
+<body>
+<svg id="logo" xmlns="http://www.w3.org/2000/svg" viewBox="34 48 574 318"></svg>
+<script>
+(function () {
+  var NS = "http://www.w3.org/2000/svg";
+  var BLACK = "#111214", RED = "#E3242B", BLUE = "#233F91";
+  function polar(cx, cy, r, deg) { var a = (deg - 90) * Math.PI / 180; return [cx + r * Math.cos(a), cy + r * Math.sin(a)]; }
+  function f(n) { return Math.round(n * 100) / 100; }
+
+  function tyre(cx, cy, r, hubShift) {
+    var s = "";
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + (r + 4) + '" fill="#fff"/>';           // white halo separates overlapping tyres
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '" fill="' + BLACK + '"/>';
+    // chevron tread marks around the visible top arc
+    for (var a = -96; a <= 96; a += 8) {
+      var p1 = polar(cx, cy, r * 0.79, a - 2.6), p2 = polar(cx, cy, r * 0.88, a + 1.6), p3 = polar(cx, cy, r * 0.96, a - 2.6);
+      s += '<path d="M' + f(p1[0]) + ' ' + f(p1[1]) + 'L' + f(p2[0]) + ' ' + f(p2[1]) + 'L' + f(p3[0]) + ' ' + f(p3[1]) + '" fill="none" stroke="#fff" stroke-width="' + f(r * 0.03) + '" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+    s += '<circle cx="' + cx + '" cy="' + cy + '" r="' + f(r * 0.7) + '" fill="' + BLACK + '" stroke="#fff" stroke-width="' + f(r * 0.025) + '"/>';
+    s += '<circle cx="' + f(cx + hubShift) + '" cy="' + cy + '" r="' + f(r * 0.46) + '" fill="' + BLUE + '" stroke="#fff" stroke-width="' + f(r * 0.035) + '"/>';
+    return s;
+  }
+
+  var svg = document.getElementById("logo");
+  var s = '<defs><clipPath id="above"><rect x="0" y="0" width="640" height="200"/></clipPath></defs>';
+  s += '<g clip-path="url(#above)">';
+  s += tyre(170, 214, 116, -26);
+  s += tyre(470, 214, 116, 26);
+  s += tyre(320, 206, 150, 0);
+  s += '</g>';
+  s += '<rect x="40" y="196" width="560" height="15" fill="' + BLACK + '"/>';
+  // wordmark: black offset shadow, then outlined red letters
+  s += '<text class="word" x="41" y="304" font-size="86" textLength="560" lengthAdjust="spacingAndGlyphs" fill="' + BLACK + '" transform="translate(4 4)">TAYSIDE TYRE</text>';
+  s += '<text class="word" x="41" y="304" font-size="86" textLength="560" lengthAdjust="spacingAndGlyphs" fill="' + RED + '" stroke="' + BLACK + '" stroke-width="3" paint-order="stroke" stroke-linejoin="round">TAYSIDE TYRE</text>';
+  s += '<rect x="40" y="331" width="206" height="9" fill="' + BLACK + '"/>';
+  s += '<rect x="394" y="331" width="206" height="9" fill="' + BLACK + '"/>';
+  s += '<text class="word" x="320" y="358" font-size="46" text-anchor="middle" letter-spacing="4" fill="' + BLUE + '">HUB</text>';
+  svg.innerHTML = s;
+})();
+</script>
+</body>
+</html>

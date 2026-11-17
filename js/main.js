@@ -81,9 +81,9 @@
     var rc = rimR * 0.64;
     var a1 = polar(rc, -62), a2 = polar(rc, -18);
     s += '<path d="M ' + f(a1[0]) + " " + f(a1[1]) + " A " + f(rc) + " " + f(rc) + " 0 0 1 " + f(a2[0]) + " " + f(a2[1]) +
-         '" fill="none" stroke="#F4C430" stroke-width="' + f(rimR * 0.17) + '" stroke-linecap="round"/>';
+         '" fill="none" stroke="#E3242B" stroke-width="' + f(rimR * 0.17) + '" stroke-linecap="round"/>';
     s += '<path d="M ' + f(a1[0]) + " " + f(a1[1]) + " A " + f(rc) + " " + f(rc) + " 0 0 1 " + f(a2[0]) + " " + f(a2[1]) +
-         '" fill="none" stroke="#C99A0E" stroke-width="' + f(rimR * 0.03) + '" stroke-linecap="round" transform="translate(0 ' + f(rimR * 0.03) + ')" opacity=".6"/>';
+         '" fill="none" stroke="#A3161C" stroke-width="' + f(rimR * 0.03) + '" stroke-linecap="round" transform="translate(0 ' + f(rimR * 0.03) + ')" opacity=".6"/>';
 
     /* rotating layer B: spokes and hub */
     s += '<g class="spin" style="transform-origin:300px 300px">';
@@ -104,8 +104,8 @@
       var lp = polar(rimR * 0.19, n * 72 + 36);
       s += '<circle cx="' + f(lp[0]) + '" cy="' + f(lp[1]) + '" r="' + f(rimR * 0.03) + '" fill="#6F757B" stroke="#4A4E52"/>';
     }
-    s += '<circle cx="300" cy="300" r="' + f(rimR * 0.12) + '" fill="#1C1B1A"/>';
-    s += '<circle cx="300" cy="300" r="' + f(rimR * 0.05) + '" fill="#F4C430"/>';
+    s += '<circle cx="300" cy="300" r="' + f(rimR * 0.12) + '" fill="#111214"/>';
+    s += '<circle cx="300" cy="300" r="' + f(rimR * 0.05) + '" fill="#E3242B"/>';
     s += "</g>";
 
     s += '<circle cx="300" cy="300" r="' + R + '" fill="url(#' + id + 'sheen)" pointer-events="none"/>';
@@ -162,10 +162,10 @@
     // caliper stays put while the disc turns
     var a1 = polar(232, 198), a2 = polar(232, 248);
     var arc = "M " + f(a1[0]) + " " + f(a1[1]) + " A 232 232 0 0 1 " + f(a2[0]) + " " + f(a2[1]);
-    s += '<path d="' + arc + '" fill="none" stroke="#1C1B1A" stroke-width="96" stroke-linecap="round"/>';
-    s += '<path d="' + arc + '" fill="none" stroke="#2E2D2B" stroke-width="64" stroke-linecap="round"/>';
+    s += '<path d="' + arc + '" fill="none" stroke="#111214" stroke-width="96" stroke-linecap="round"/>';
+    s += '<path d="' + arc + '" fill="none" stroke="#2A2D33" stroke-width="64" stroke-linecap="round"/>';
     var c1 = polar(232, 208), c2 = polar(232, 238);
-    s += '<path d="M ' + f(c1[0]) + " " + f(c1[1]) + " A 232 232 0 0 1 " + f(c2[0]) + " " + f(c2[1]) + '" fill="none" stroke="#F4C430" stroke-width="8" stroke-linecap="round"/>';
+    s += '<path d="M ' + f(c1[0]) + " " + f(c1[1]) + " A 232 232 0 0 1 " + f(c2[0]) + " " + f(c2[1]) + '" fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>';
     s += '<circle cx="300" cy="300" r="285" fill="url(#' + id + 's)" pointer-events="none"/>';
     s += "</svg>";
     return s;
@@ -389,13 +389,15 @@
         io.unobserve(en.target);
       });
     }, { threshold: 0.25 });
-    ["offers", "reviews"].forEach(function (id) {
+    ["reviews"].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) io.observe(el);
     });
+    var ev = document.querySelector(".ev-feature");
+    if (ev) io.observe(ev);
   } else {
-    var off = document.getElementById("offers");
-    if (off) off.classList.add("in-view");
+    var evf = document.querySelector(".ev-feature");
+    if (evf) evf.classList.add("in-view");
   }
 
   function countUp(scope) {
