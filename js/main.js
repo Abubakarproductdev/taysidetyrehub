@@ -125,6 +125,65 @@
     heroSpins = renderTyre(heroEl, +heroEl.dataset.w, +heroEl.dataset.p, +heroEl.dataset.r, heroEl.dataset.top, heroEl.dataset.bottom);
   }
 
+  /* wheel slice in the services panel */
+  var decoEl = document.querySelector('[data-tyre="deco"]');
+  var decoSpins = decoEl ? Array.prototype.slice.call(renderTyre(decoEl, +decoEl.dataset.w, +decoEl.dataset.p, +decoEl.dataset.r, decoEl.dataset.top, decoEl.dataset.bottom)) : [];
+
+  /* drilled brake disc with a fixed caliper, for the yellow services panel */
+  function discMarkup() {
+    var id = "dk" + (++uid);
+    var s = '<svg viewBox="0 0 600 600" xmlns="' + NS + '" aria-hidden="true" focusable="false"><defs>';
+    s += '<radialGradient id="' + id + 'm" cx="38%" cy="32%" r="75%"><stop offset="0" stop-color="#F4F5F6"/><stop offset=".55" stop-color="#C8CCD1"/><stop offset="1" stop-color="#8F959C"/></radialGradient>';
+    s += '<radialGradient id="' + id + 'h" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#C9CDD2"/><stop offset="1" stop-color="#7F858C"/></radialGradient>';
+    s += '<linearGradient id="' + id + 's" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".25"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient>';
+    s += "</defs>";
+
+    s += '<g class="spin" style="transform-origin:300px 300px">';
+    s += '<circle cx="300" cy="300" r="285" fill="url(#' + id + 'm)" stroke="#7D838A" stroke-width="3"/>';
+    [268, 246, 224, 202, 182].forEach(function (rr) {
+      s += '<circle cx="300" cy="300" r="' + rr + '" fill="none" stroke="#000" stroke-opacity=".06" stroke-width="1.2"/>';
+    });
+    // three staggered rings of cross-drilled holes
+    [[254, 0], [228, 5], [202, 2.5]].forEach(function (ring) {
+      for (var i = 0; i < 24; i++) {
+        var p = polar(ring[0], i * 15 + ring[1]);
+        s += '<circle cx="' + f(p[0]) + '" cy="' + f(p[1]) + '" r="7.5" fill="#3A3C3F" stroke="#6C7278" stroke-width="1.5"/>';
+      }
+    });
+    s += '<circle cx="300" cy="300" r="165" fill="url(#' + id + 'h)" stroke="#6F757C" stroke-width="4"/>';
+    s += '<circle cx="300" cy="300" r="122" fill="#A9AEB4" stroke="#7A8087" stroke-width="2"/>';
+    for (var b = 0; b < 5; b++) {
+      var bp = polar(88, b * 72);
+      s += '<circle cx="' + f(bp[0]) + '" cy="' + f(bp[1]) + '" r="15" fill="#2A2C2F" stroke="#5E646A" stroke-width="2"/>';
+    }
+    s += '<circle cx="300" cy="300" r="48" fill="#1F2022" stroke="#6F757C" stroke-width="4"/>';
+    s += "</g>";
+
+    // caliper stays put while the disc turns
+    var a1 = polar(232, 198), a2 = polar(232, 248);
+    var arc = "M " + f(a1[0]) + " " + f(a1[1]) + " A 232 232 0 0 1 " + f(a2[0]) + " " + f(a2[1]);
+    s += '<path d="' + arc + '" fill="none" stroke="#1C1B1A" stroke-width="96" stroke-linecap="round"/>';
+    s += '<path d="' + arc + '" fill="none" stroke="#2E2D2B" stroke-width="64" stroke-linecap="round"/>';
+    var c1 = polar(232, 208), c2 = polar(232, 238);
+    s += '<path d="M ' + f(c1[0]) + " " + f(c1[1]) + " A 232 232 0 0 1 " + f(c2[0]) + " " + f(c2[1]) + '" fill="none" stroke="#F4C430" stroke-width="8" stroke-linecap="round"/>';
+    s += '<circle cx="300" cy="300" r="285" fill="url(#' + id + 's)" pointer-events="none"/>';
+    s += "</svg>";
+    return s;
+  }
+  var discEl = document.querySelector("[data-disc]");
+  if (discEl) {
+    discEl.innerHTML = discMarkup();
+    decoSpins = decoSpins.concat(Array.prototype.slice.call(discEl.querySelectorAll(".spin")));
+  }
+
+  /* each service opens WhatsApp with a ready-written question */
+  document.querySelectorAll("[data-ask]").forEach(function (a) {
+    var msg = "Hi Tayside Tyre Hub, I'd like to ask about " + a.dataset.ask + ".";
+    a.href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
+    var name = a.querySelector("strong");
+    if (name) a.setAttribute("aria-label", name.textContent + ": ask on WhatsApp");
+  });
+
   var header = document.querySelector(".site-header");
   var ticking = false;
   function onScroll() {
@@ -136,6 +195,9 @@
       if (!reduceMotion && y < window.innerHeight * 1.5) {
         var deg = -y * 0.28;
         for (var i = 0; i < heroSpins.length; i++) heroSpins[i].style.transform = "rotate(" + deg + "deg)";
+      }
+      if (!reduceMotion) {
+        for (var j = 0; j < decoSpins.length; j++) decoSpins[j].style.transform = "rotate(" + (y * 0.12) + "deg)";
       }
       ticking = false;
     });
