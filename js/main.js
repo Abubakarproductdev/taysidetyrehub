@@ -266,8 +266,50 @@
     var selW = document.getElementById("f-width");
     var selP = document.getElementById("f-profile");
     var selR = document.getElementById("f-rim");
-    var preview = document.getElementById("wa-preview");
+    var msgBox = document.getElementById("wa-message");
+    var resetBtn = document.getElementById("wa-reset");
+    var errorEl = document.getElementById("wa-error");
     var send = document.getElementById("wa-send");
+    var edited = false;          // true once the person types in the message box
+    var lastPhrase = "", lastMsg = "";
+
+    function waLink(text) {
+      return "https://wa.me/" + WA_NUMBER + (text ? "?text=" + encodeURIComponent(text) : "");
+    }
+    function autoGrow() {
+      msgBox.style.height = "auto";
+      msgBox.style.height = msgBox.scrollHeight + "px";
+    }
+    function syncSend() {
+      var text = msgBox.value.trim();
+      send.href = waLink(text);
+      if (text) errorEl.hidden = true;
+    }
+    msgBox.addEventListener("input", function () {
+      edited = msgBox.value !== lastMsg;
+      resetBtn.hidden = !edited;
+      autoGrow();
+      syncSend();
+    });
+    resetBtn.addEventListener("click", function () {
+      edited = false;
+      resetBtn.hidden = true;
+      msgBox.value = lastMsg;
+      autoGrow();
+      syncSend();
+      msgBox.focus();
+    });
+    // always send exactly what is in the box at the moment of the click
+    send.addEventListener("click", function (e) {
+      var text = msgBox.value.trim();
+      if (!text) {
+        e.preventDefault();
+        errorEl.hidden = false;
+        msgBox.focus();
+        return;
+      }
+      send.href = waLink(text);
+    });
     var finderEl = document.querySelector('[data-tyre="finder"]');
 
     function fill(sel, from, to, step, val, prefix) {
@@ -293,9 +335,18 @@
 
       var phrase = qty === 1 ? "a " + kindWord + " " + size + " tyre" : qty + " " + kindWord + " " + size + " tyres";
       var msg = "Hi Tayside Tyre Hub, do you have " + phrase + " in stock? How much would that be fitted and balanced? Thanks";
-      preview.textContent = msg;
-      send.href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(msg);
-      document.getElementById("wa-send-label").textContent = "Send on WhatsApp";
+
+      if (edited && lastPhrase && msgBox.value.indexOf(lastPhrase) !== -1) {
+        // keep the person's own wording, just swap in the new size and quantity
+        msgBox.value = msgBox.value.replace(lastPhrase, phrase);
+      } else if (!edited) {
+        msgBox.value = msg;
+      }
+      lastPhrase = phrase;
+      lastMsg = msg;
+      if (!edited) resetBtn.hidden = true;
+      autoGrow();
+      syncSend();
 
       var sideMm = Math.round(w * p / 100);
       document.getElementById("d-w-k").textContent = w;
@@ -320,7 +371,10 @@
       }
       first = false;
     }
-    form.addEventListener("change", update);
+    form.addEventListener("change", function (e) {
+      if (e.target === msgBox) return; // typing in the message is handled separately
+      update();
+    });
     form.addEventListener("submit", function (e) { e.preventDefault(); });
     update();
   }

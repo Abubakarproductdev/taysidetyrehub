@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=21">
+  <link rel="stylesheet" href="css/styles.css?v=23">
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -157,7 +157,7 @@
           <div class="ev-copy">
             <p class="ev-tag"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>Our speciality</p>
             <h3 id="ev-title">Hybrid and electric vehicle specialists</h3>
-            <p>We’re EV qualified, so your hybrid or electric car is in expert hands, from tyres to servicing.</p>
+            <p>We’re EV qualified, so your hybrid or electric car is in expert hands.</p>
             <a class="btn btn-light btn-lg" data-ask="my hybrid or electric car" href="https://wa.me/447777923577" target="_blank" rel="noopener">
               <svg aria-hidden="true"><use href="#i-wa"/></svg>Ask about your EV
             </a>
@@ -194,7 +194,7 @@
             </div>
             <header class="svc-panel-head">
               <h3 id="svc-tyres">Tyres and wheels</h3>
-              <p>7 services</p>
+              <p>6 services</p>
             </header>
             <ul class="svc-list">
               <li><a class="svc-row" data-ask="new tyres" href="https://wa.me/447777923577" target="_blank" rel="noopener">
@@ -215,11 +215,6 @@
               <li><a class="svc-row" data-ask="tyre fitting and balancing" href="https://wa.me/447777923577" target="_blank" rel="noopener">
                 <span class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><circle cx="16" cy="16" r="3.5"/><path d="M16 4a12 12 0 0 1 8.5 3.5"/><rect x="21.5" y="5.5" width="4" height="3" rx="1" transform="rotate(45 23.5 7)"/></svg></span>
                 <span class="svc-txt"><strong>Fitting and balancing</strong><span>Tyres fitted and wheels balanced.</span></span>
-                <span class="svc-go" aria-hidden="true"><svg><use href="#i-wa"/></svg></span>
-              </a></li>
-              <li><a class="svc-row" data-ask="a puncture repair" href="https://wa.me/447777923577" target="_blank" rel="noopener">
-                <span class="svc-ico"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="18" r="10"/><circle cx="16" cy="18" r="3.5"/><path d="M23 4l-2.5 7M20 4h6"/></svg></span>
-                <span class="svc-txt"><strong>Puncture repairs</strong><span>Punctured tyres repaired.</span></span>
                 <span class="svc-go" aria-hidden="true"><svg><use href="#i-wa"/></svg></span>
               </a></li>
               <li><a class="svc-row" data-ask="wheel alignment" href="https://wa.me/447777923577" target="_blank" rel="noopener">
@@ -328,8 +323,12 @@
             </div>
 
             <div class="message-preview">
-              <span class="message-label">Your message</span>
-              <p id="wa-preview"></p>
+              <div class="message-top">
+                <label class="message-label" for="wa-message">Your message <span>(tap to edit)</span></label>
+                <button type="button" class="message-reset" id="wa-reset" hidden>Reset message</button>
+              </div>
+              <textarea id="wa-message" name="message" rows="3" spellcheck="true"></textarea>
+              <p class="message-error" id="wa-error" role="alert" hidden>Write a message before sending.</p>
             </div>
 
             <a class="btn btn-primary btn-lg btn-block" id="wa-send" href="https://wa.me/447777923577" target="_blank" rel="noopener">
@@ -508,6 +507,6 @@
     <a href="https://www.google.com/maps/dir/?api=1&amp;destination=Tayside+Tyre+Hub,+40+Perrie+Street,+Dundee+DD2+2RD" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-pin"/></svg>Directions</a>
   </nav>
 
-  <script src="js/main.js?v=21"></script>
+  <script src="js/main.js?v=23"></script>
 </body>
 </html>

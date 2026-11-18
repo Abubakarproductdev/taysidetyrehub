@@ -355,7 +355,20 @@ a.svc-foot:hover { text-decoration: underline; text-underline-offset: 3px; }
 .seg input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
 .message-preview { background: #DCF8C6; color: #13261A; border-radius: 12px 12px 12px 3px; padding: 12px 16px 14px; max-width: 32em; box-shadow: 0 12px 28px -16px rgba(0, 0, 0, .5); }
 .message-label { display: block; font-size: .8125rem; font-weight: 600; color: #3F6B45; margin-bottom: 4px; }
-.message-preview p { margin: 0; font-size: .9688rem; }
+.message-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; margin-bottom: 4px; }
+.message-top .message-label { margin: 0; }
+.message-label span { font-weight: 400; color: #5B7A5F; }
+.message-reset { border: 0; background: none; padding: 0; font: 500 .8125rem var(--font); color: #2F5E36; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+.message-reset:hover { color: #13261A; }
+#wa-message {
+  display: block; width: 100%; min-height: 72px; margin: 0; padding: 6px 8px; resize: none; overflow: hidden;
+  font: 400 .9688rem/1.55 var(--font); color: #13261A;
+  background: rgba(255, 255, 255, .45); border: 1px dashed rgba(19, 38, 26, .25); border-radius: 8px;
+  transition: background-color var(--t-fast) ease, border-color var(--t-fast) ease;
+}
+#wa-message:hover { border-color: rgba(19, 38, 26, .45); }
+#wa-message:focus { outline: none; background: #fff; border: 1px solid #25D366; box-shadow: 0 0 0 3px rgba(37, 211, 102, .25); }
+.message-error { margin: 8px 0 0; font-size: .875rem; font-weight: 500; color: var(--red-700); }
 .finder-visual { display: grid; gap: 28px; justify-items: center; }
 .tyre-finder { width: min(100%, 440px); aspect-ratio: 1; }
 .decode { margin: 0; display: grid; width: 100%; max-width: 440px; }
@@ -537,7 +550,7 @@ address { font-style: normal; font-size: 1.25rem; font-weight: 500; line-height:
   .seg { display: flex; width: 100%; }
   .seg label { flex: 1; }
   .seg span { text-align: center; padding: 10px 6px; }
-  .message-preview p { font-size: .9375rem; }
+  #wa-message { font-size: .9375rem; }
   .finder-visual { gap: 0; }
   .tyre-finder { width: 58vw; max-width: 240px; margin-top: 8px; }
   .decode { display: none; }
